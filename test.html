@@ -1,13 +1,15 @@
 <script src="./main.js"></script>
-<script>robotsParse(`
-	User-Agent:*
-	User-Agent:Test
-	Disallow: *
+<script>robotsParse(`# If you would like to crawl GitHub contact us at support@github.com.
+# We also provide an extensive API: https://developer.github.com/
 
-	User-Agent:hey
-	Disallow: /hudri
-	Disallow: /hud
-	Disallow: /haha
-	Allow: /hudri
-	Noindex: /h
-`,'http://www.example.com/hudriwudri')</script>
+User-agent: Googlebot
+Allow: /*/*/tree/master
+Allow: /*/*/blob/master
+Disallow: /*q=
+Disallow: /*.atom
+Disallow: /login
+
+User-agent: *
+Allow: /humans.txt
+Disallow: /
+`,'http://www.example.com/login')</script>

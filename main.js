@@ -40,23 +40,29 @@ function robotsParse(txt,url,ua="Mozilla/5.0 (compatible; Googlebot/2.1; +http:/
   	let doesUserAgentMatch = (user_agent = ua_lower, ua_group =  user_agent_group)=>
   	{
   		let user_agent_match = false;
+  		user_agent = user_agent.toLowerCase();
 		for(u of ua_group)
 		{
+			u = u.toLowerCase();
 			u = u.trim();
+
 			if(u!=''&&(user_agent.includes(u) || u === '*'))
 			{
-				if(u.length>last_matching_user_agent.length)
+				
+				if(u===last_matching_user_agent||u.length>last_matching_user_agent.length)
 				{
 					user_agent_match = true;
 					last_matching_user_agent = u;
 				}
-				else if(u.length===last_matching_user_agent.length)
+				else if(u!=last_matching_user_agent&&u.length===last_matching_user_agent.length)
 				{
 					user_agent_match = true;
 					last_matching_user_agent = u;
 					user_agent_match_collision = true;
 				}
 			}
+
+
 		}
 		return user_agent_match;
   	}
@@ -73,7 +79,8 @@ function robotsParse(txt,url,ua="Mozilla/5.0 (compatible; Googlebot/2.1; +http:/
 		}
 		reg_ex_st = '^'+reg_ex_st
 		let rx = new RegExp(reg_ex_st);
-		if(path.match(rx))
+		let matched = path.match(rx);
+		if(matched)
 		{
 			console.log('it is a match');
 			return(
@@ -89,7 +96,9 @@ function robotsParse(txt,url,ua="Mozilla/5.0 (compatible; Googlebot/2.1; +http:/
 					'user-agent-match':user_agent_group
 				}
 			)
-						}
+		}
+		console.log(matched);
+		debugger;
 		return false;
   	}
 
@@ -130,7 +139,6 @@ function robotsParse(txt,url,ua="Mozilla/5.0 (compatible; Googlebot/2.1; +http:/
 					user_agent_group = [];
 					user_agent_group.push(value);
 				}
-				//debugger;
 			} else
 			if (key==="disallow" || key === "allow" || key === "noindex")
 			{
@@ -162,15 +170,15 @@ function robotsParse(txt,url,ua="Mozilla/5.0 (compatible; Googlebot/2.1; +http:/
 			} else
 			if (key==="crawl-delay")
 			{
-				//todo
+				//todo //ignored by google //ua dependent
 			} else
 			if (key==="sitemap")
 			{
-				//todo
+				//todo //ua independet
 			} else
 			if (key==="host")
 			{
-				; //yandex only, ignored currently
+				; //yandex only, ignored currently //ua dependet
 				
 			}
 			saveLast(key,value);
@@ -231,7 +239,7 @@ function robotsParse(txt,url,ua="Mozilla/5.0 (compatible; Googlebot/2.1; +http:/
 			}
 		}
 	}
-	//debugger;
+	debugger;
 	return r;
 }
 
