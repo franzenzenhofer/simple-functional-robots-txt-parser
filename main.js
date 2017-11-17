@@ -157,7 +157,7 @@ function robotsParse(txt,url,ua="Mozilla/5.0 (compatible; Googlebot/2.1; +http:/
 			}
 		}
 	}
-	let prio_matches = mapDscByKey(all_matches);
+	const prio_matches = mapDscByKey(all_matches);
 	let r = {
 		matches: prio_matches,
 		allowed: true,
@@ -207,4 +207,7 @@ function robotsParse(txt,url,ua="Mozilla/5.0 (compatible; Googlebot/2.1; +http:/
 	return r;
 }
 
-module.exports = robotsParse;
+if(module && module.exports)
+{
+	module.exports = robotsParse;
+}
