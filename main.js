@@ -7,7 +7,7 @@ function robotsParse(txt,url,ua="Mozilla/5.0 (compatible; Googlebot/2.1; +http:/
 	let user_agent_group = [];
 	let ua_lower = ua.toLowerCase();
 	let URL_Object = new URL(url);
-	let path = URL_Object.pathname;
+	let path = URL_Object.pathname+URL_Object.search;
 	let all_matches = new Map();
 
 	let mapAscByKey = (map) =>
