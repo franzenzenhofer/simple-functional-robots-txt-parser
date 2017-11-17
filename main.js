@@ -159,7 +159,7 @@ function robotsParse(txt,url,ua="Mozilla/5.0 (compatible; Googlebot/2.1; +http:/
 	}
 	const prio_matches = mapDscByKey(all_matches);
 	let r = {
-		matches: prio_matches,
+		matches: Array.from(prio_matches),
 		allowed: true,
 		disallowed: false,
 		noindex: false,
@@ -204,10 +204,11 @@ function robotsParse(txt,url,ua="Mozilla/5.0 (compatible; Googlebot/2.1; +http:/
 			}
 		}
 	}
+	//debugger;
 	return r;
 }
 
-if(module && module.exports)
+if (typeof module !== 'undefined')
 {
 	module.exports = robotsParse;
 }
