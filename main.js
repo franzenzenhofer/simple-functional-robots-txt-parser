@@ -4,11 +4,13 @@ function robotsParse(txt,url,ua="Mozilla/5.0 (compatible; Googlebot/2.1; +http:/
 	let last_valid_key = "";
 	let last_valid_value = "";
 	let last_user_agent = "";
+	let last_matching_user_agent = "";
 	let user_agent_group = [];
 	let ua_lower = ua.toLowerCase();
 	let URL_Object = new URL(url);
 	let path = URL_Object.pathname+URL_Object.search;
 	let all_matches = new Map();
+	let user_agent_match_collision = false;
 
 	let mapAscByKey = (map) =>
 	{
@@ -34,15 +36,26 @@ function robotsParse(txt,url,ua="Mozilla/5.0 (compatible; Googlebot/2.1; +http:/
   	}
 
   	//let inUserAgentGroup = ()=>
-  	
+  	//dirty method, as we only return true if it has a higher prio (is longer) then the latest matching user agent
   	let doesUserAgentMatch = (user_agent = ua_lower, ua_group =  user_agent_group)=>
   	{
   		let user_agent_match = false;
 		for(u of ua_group)
 		{
+			u = u.trim();
 			if(u!=''&&(user_agent.includes(u) || u === '*'))
 			{
-				user_agent_match = true;
+				if(u.length>last_matching_user_agent.length)
+				{
+					user_agent_match = true;
+					last_matching_user_agent = u;
+				}
+				else if(u.length===last_matching_user_agent.length)
+				{
+					user_agent_match = true;
+					last_matching_user_agent = u;
+					user_agent_match_collision = true;
+				}
 			}
 		}
 		return user_agent_match;
@@ -172,7 +185,13 @@ function robotsParse(txt,url,ua="Mozilla/5.0 (compatible; Googlebot/2.1; +http:/
 		disallowed: false,
 		noindex: false,
 		rule_match: false,
-		conflict: false
+		conflict: false;
+		user_agent_match_collision: false
+	}
+
+	if(user_agent_match_collision)
+	{
+		r.user_agent_match_collision = true;
 	}
 
 
