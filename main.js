@@ -185,7 +185,7 @@ function robotsParse(txt,url,ua="Mozilla/5.0 (compatible; Googlebot/2.1; +http:/
 		disallowed: false,
 		noindex: false,
 		rule_match: false,
-		conflict: false;
+		conflict: false,
 		user_agent_match_collision: false
 	}
 
