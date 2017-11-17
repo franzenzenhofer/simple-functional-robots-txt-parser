@@ -1,4 +1,4 @@
-const parse = (txt,url,ua="Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)") =>
+export const parse = (txt,url,ua="Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)") =>
 {
 	let lines = txt.split("\n");
 	let last_valid_key = "";
@@ -81,7 +81,6 @@ const parse = (txt,url,ua="Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.g
 	{
 		nr++;
 		let lt = l.trim();
-		//debugger;
 		//blankline
 		if(lt==="")
 		{
@@ -140,11 +139,9 @@ const parse = (txt,url,ua="Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.g
 						{
 							console.log("not a match");
 						}
-						debugger;
 					}
 
 				}
-				debugger;
 			} else
 			if (key==="crawl-delay")
 			{
@@ -166,7 +163,8 @@ const parse = (txt,url,ua="Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.g
 		allowed: true,
 		disallowed: false,
 		noindex: false,
-		rule_match: false
+		rule_match: false,
+		conflict: false
 	}
 
 
@@ -174,14 +172,24 @@ const parse = (txt,url,ua="Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.g
 	{
 		r.rule_match = true;
 		let highest_matching_rules = prio_matches.values().next().value;
+		let activly_set_to_allow = false;
+		let activly_set_to_disallow = false;
 		for(let m of highest_matching_rules)
 		{
-			debugger;
 			if(m.key==='disallow')
 			{
 				r.disallowed = true;
 				r.allowed= false;
+				activly_set_to_disallow = true;
 			}
+			if(m.key==='allow')
+			{
+				activly_set_to_allow = true;
+			}
+		}
+		if(activly_set_to_allow&&activly_set_to_disallow)
+		{
+			r.conflict=true;
 		}
 
 		//if there is any match of noindex, we set the noindex flag
@@ -196,7 +204,5 @@ const parse = (txt,url,ua="Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.g
 			}
 		}
 	}
-	debugger;
 	return r;
 }
-
