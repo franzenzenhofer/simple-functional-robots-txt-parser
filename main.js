@@ -104,7 +104,7 @@ function robotsParse(txt,url,ua="Mozilla/5.0 (compatible; Googlebot/2.1; +http:/
 			let key = lt.substring(0,lt.indexOf(':')).trim();
 			let value = lt.substring(lt.indexOf(':')+1).trim();
 			key = key.toLowerCase();
-			saveLast(key,value);
+			
 			if (key==="user-agent")
 			{
 				last_user_agent = value;
@@ -158,7 +158,9 @@ function robotsParse(txt,url,ua="Mozilla/5.0 (compatible; Googlebot/2.1; +http:/
 			if (key==="host")
 			{
 				; //yandex only, ignored currently
+				
 			}
+			saveLast(key,value);
 		}
 	}
 	const prio_matches = mapDscByKey(all_matches);
