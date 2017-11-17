@@ -207,4 +207,4 @@ function parse(txt,url,ua="Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.g
 	return r;
 }
 
-module.exports = parse;
+exports.parse = parse;
