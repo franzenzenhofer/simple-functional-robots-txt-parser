@@ -206,3 +206,5 @@ export const parse = (txt,url,ua="Mozilla/5.0 (compatible; Googlebot/2.1; +http:
 	}
 	return r;
 }
+
+module.export = parse;
