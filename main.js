@@ -49,10 +49,11 @@ function robotsParse(txt,url,ua="Mozilla/5.0 (compatible; Googlebot/2.1; +http:/
   	}
 
   	let doesItMatch = (it,what,rule,line,linenr,ua,user_agent_group) =>
-  	{
+  	{					
+  						rule = rule.trim();
   						let reg_ex_st = specialEscape(rule);
 						reg_ex_st = reg_ex_st.replace(/\*/g, '.*');
-						if(!reg_ex_st.endsWith('$')&&!reg_ex_st.endsWith('*'))
+						if(!reg_ex_st.endsWith('$')&&!reg_ex_st.endsWith('*')&&rule!='')
 						{
 							reg_ex_st=reg_ex_st+'.*'
 						}
