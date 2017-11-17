@@ -63,6 +63,7 @@ function robotsParse(txt,url,ua="Mozilla/5.0 (compatible; Googlebot/2.1; +http:/
 							console.log('it is a match');
 							return(
 								{
+									'path':path,
 									'prio':rule.length,
 									'linenumber':linenr,
 									'rule':line,
@@ -159,6 +160,8 @@ function robotsParse(txt,url,ua="Mozilla/5.0 (compatible; Googlebot/2.1; +http:/
 	}
 	const prio_matches = mapDscByKey(all_matches);
 	let r = {
+		url: url,
+		path: path,
 		matches: Array.from(prio_matches),
 		allowed: true,
 		disallowed: false,
