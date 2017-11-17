@@ -11,6 +11,11 @@ function robotsParse(txt,url,ua="Mozilla/5.0 (compatible; Googlebot/2.1; +http:/
 	let path = URL_Object.pathname+URL_Object.search;
 	let all_matches = new Map();
 	let user_agent_match_collision = false;
+	let user_agent_match_cache = new Map();
+
+	hashCode = function(s){
+  return s.split("").reduce(function(a,b){a=((a<<5)-a)+b.charCodeAt(0);return a&a},0);
+    }
 
 	let mapAscByKey = (map) =>
 	{
@@ -41,6 +46,13 @@ function robotsParse(txt,url,ua="Mozilla/5.0 (compatible; Googlebot/2.1; +http:/
   	{
   		let user_agent_match = false;
   		user_agent = user_agent.toLowerCase();
+
+  		const unique_key = hashCode(ua_group.join()+user_agent);
+  		let hit = user_agent_match_cache.get(unique_key)
+  		if(hit!==undefined)
+  		{
+  			return user_agent_match_cache.get(unique_key);
+  		}
 		for(u of ua_group)
 		{
 			u = u.toLowerCase();
@@ -64,6 +76,7 @@ function robotsParse(txt,url,ua="Mozilla/5.0 (compatible; Googlebot/2.1; +http:/
 
 
 		}
+		user_agent_match_cache.set(unique_key,user_agent_match);
 		return user_agent_match;
   	}
 
@@ -82,7 +95,6 @@ function robotsParse(txt,url,ua="Mozilla/5.0 (compatible; Googlebot/2.1; +http:/
 		let matched = path.match(rx);
 		if(matched)
 		{
-			console.log('it is a match');
 			return(
 				{
 					'path':path,
@@ -97,8 +109,6 @@ function robotsParse(txt,url,ua="Mozilla/5.0 (compatible; Googlebot/2.1; +http:/
 				}
 			)
 		}
-		console.log(matched);
-		debugger;
 		return false;
   	}
 
@@ -159,10 +169,6 @@ function robotsParse(txt,url,ua="Mozilla/5.0 (compatible; Googlebot/2.1; +http:/
 							{
 								all_matches.get(a_match.prio).push(a_match);
 							}
-						}
-						else
-						{
-							console.log("not a match");
 						}
 					}
 
@@ -239,7 +245,6 @@ function robotsParse(txt,url,ua="Mozilla/5.0 (compatible; Googlebot/2.1; +http:/
 			}
 		}
 	}
-	debugger;
 	return r;
 }
 
