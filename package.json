@@ -1,6 +1,6 @@
 {
   "name": "simple-functional-robots-txt-parser",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "description": "simple functional feature incomplete robots.txt parser",
   "main": "main.js",
   "scripts": {
