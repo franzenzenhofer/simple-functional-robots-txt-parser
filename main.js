@@ -50,32 +50,34 @@ function robotsParse(txt,url,ua="Mozilla/5.0 (compatible; Googlebot/2.1; +http:/
 
   	let doesItMatch = (it,what,rule,line,linenr,ua,user_agent_group) =>
   	{					
-  						rule = rule.trim();
-  						let reg_ex_st = specialEscape(rule);
-						reg_ex_st = reg_ex_st.replace(/\*/g, '.*');
-						if(!reg_ex_st.endsWith('$')&&!reg_ex_st.endsWith('*')&&rule!='')
-						{
-							reg_ex_st=reg_ex_st+'.*'
+  		rule = rule.trim();
+  		if(!rule){return false;}
+			let reg_ex_st = specialEscape(rule);
+		reg_ex_st = reg_ex_st.replace(/\*/g, '.*');
+		if(!reg_ex_st.endsWith('$')&&!reg_ex_st.endsWith('*')&&rule!='')
+		{
+			reg_ex_st=reg_ex_st+'.*'
+		}
+		reg_ex_st = '^'+reg_ex_st
+		let rx = new RegExp(reg_ex_st);
+		if(path.match(rx))
+		{
+			console.log('it is a match');
+			return(
+				{
+					'path':path,
+					'prio':rule.length,
+					'linenumber':linenr,
+					'rule':line,
+					'regex':reg_ex_st,
+					'key':what,
+					'value':rule,
+					'user-agent': ua,
+					'user-agent-match':user_agent_group
+				}
+			)
 						}
-						reg_ex_st = '^'+reg_ex_st
-						let rx = new RegExp(reg_ex_st);
-						if(path.match(rx))
-						{
-							console.log('it is a match');
-							return(
-								{
-									'path':path,
-									'prio':rule.length,
-									'linenumber':linenr,
-									'rule':line,
-									'regex':reg_ex_st,
-									'key':what,
-									'value':rule,
-									'user-agent': ua,
-									'user-agent-match':user_agent_group
-								}
-							)
-						}
+		return false;
   	}
 
   	let nr = 0;
