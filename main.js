@@ -53,7 +53,7 @@ function robotsParse(txt,url,ua="Mozilla/5.0 (compatible; Googlebot/2.1; +http:/
   		{
   			return user_agent_match_cache.get(unique_key);
   		}
-		for(u of ua_group)
+		for(let u of ua_group)
 		{
 			u = u.toLowerCase();
 			u = u.trim();
